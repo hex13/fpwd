@@ -1,35 +1,53 @@
 const express = require('express')
 const { urlencoded, json } = require('body-parser')
-const makeRepositories = require('./middleware/repositories')
 
 const STORAGE_FILE_PATH = 'questions.json'
 const PORT = 3000
 
-const app = express()
+exports.createApp = (makeRepositories) => {
 
-app.use(urlencoded({ extended: true }))
-app.use(json())
-app.use(makeRepositories(STORAGE_FILE_PATH))
+  const app = express()
 
-app.get('/', (_, res) => {
-  res.json({ message: 'Welcome to responder!' })
-})
+  app.use(urlencoded({ extended: true }))
+  app.use(json())
+  app.use(makeRepositories(STORAGE_FILE_PATH))
 
-app.get('/questions', async (req, res) => {
-  const questions = await req.repositories.questionRepo.getQuestions()
-  res.json(questions)
-})
+  app.get('/', (_, res) => {
+    res.json({ message: 'Welcome to responder!' })
+  })
 
-app.get('/questions/:questionId', (req, res) => {})
+  app.get('/questions', async (req, res) => {
+    const questions = await req.repositories.questionRepo.getQuestions()
+    res.json(questions)
+  })
 
-app.post('/questions', (req, res) => {})
+  app.get('/questions/:questionId', async (req, res) => {
+    console.log(req.params);
+    const question = await req.repositories.questionRepo.getQuestionById(req.params.questionId)
+    res.json(question)
 
-app.get('/questions/:questionId/answers', (req, res) => {})
+  })
 
-app.post('/questions/:questionId/answers', (req, res) => {})
+  app.post('/questions', async (req, res) => {
+    await req.repositories.questionRepo.addQuestion(req.body)
+    res.json({});
+  })
 
-app.get('/questions/:questionId/answers/:answerId', (req, res) => {})
+  app.get('/questions/:questionId/answers', async (req, res) => {
+    res.json(await req.repositories.questionRepo.getAnswers(req.params.questionId));
+  })
 
-app.listen(PORT, () => {
-  console.log(`Responder app listening on port ${PORT}`)
-})
+  app.post('/questions/:questionId/answers', (req, res) => {})
+
+  app.get('/questions/:questionId/answers/:answerId', async (req, res) => {
+    const { questionId, answerId } = req.params
+    res.json(await req.repositories.questionRepo.getAnswer(questionId, answerId));
+  })
+
+  // app.listen(PORT, () => {
+  //   console.log(`Responder app listening on port ${PORT}`)
+  // })
+
+  return app;
+};
+
