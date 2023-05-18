@@ -125,21 +125,21 @@ describe('question repository', () => {
 
   test('getAnswers() should return answers', async () => {
     await writeQuestions(createTestQuestions());
-    const id = "50f9e662-fa0e-4ec7-b53b-7845e8f821c3";
+    const id = createTestQuestions()[0].id;
     const answers = await questionRepo.getAnswers(id)
     expect(answers).toStrictEqual(createTestQuestions()[0].answers);
   })
 
   test('getAnswers() should return undefined', async () => {
     await writeQuestions(createTestQuestions());
-    const id = "50f9e662-fa0e-4ec7-b53b-7845e8f821c3";
+    const id = createTestQuestions()[0].id;
     const answers = await questionRepo.getAnswers('foo')
     expect(answers).toBe(undefined);
   })
 
   test('getAnswer() should return answer', async () => {
     await writeQuestions(createTestQuestions());
-    const questionId = "50f9e662-fa0e-4ec7-b53b-7845e8f821c3";
+    const questionId = createTestQuestions()[0].id;
     const answer = await questionRepo.getAnswer(questionId, "d498c0a3-5be2-4354-a3bc-78673aca0f31")
     expect(answer).toStrictEqual({
       "id": "d498c0a3-5be2-4354-a3bc-78673aca0f31",
