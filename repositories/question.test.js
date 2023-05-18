@@ -140,9 +140,10 @@ describe('question repository', () => {
   test('getAnswer() should return answer', async () => {
     await writeQuestions(createTestQuestions());
     const questionId = createTestQuestions()[0].id;
-    const answer = await questionRepo.getAnswer(questionId, "d498c0a3-5be2-4354-a3bc-78673aca0f31")
+    const answerId = createTestQuestions()[0].answers[1].id;
+    const answer = await questionRepo.getAnswer(questionId, answerId)
     expect(answer).toStrictEqual({
-      "id": "d498c0a3-5be2-4354-a3bc-78673aca0f31",
+      "id": answerId,
       "author": "Dr Strange",
       "summary": "It is egg-shaped."
     })
