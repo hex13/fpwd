@@ -9,20 +9,14 @@ function createAppAndRepos() {
       req.repositories = { questionRepo: makeQuestionRepository(fileName) }
       next()
     }
-    let counter = 0;
     const questionRepo = {
-      c: () => counter,
       getAnswer: (questionId, answerId) => {
-         console.log("C", counter++)
          return (['getAnswer', questionId, answerId]);
       },
       getAnswers: (id) => {
-         console.log("C", counter++)
          return (['getAnswers', id])
       },
-      addQuestion: jest.fn((a) => {
-         console.log("ADD Q", a)
-      }),
+      addQuestion: jest.fn(() => {}),
       getQuestions: () => (['getQuestions']),
       getQuestionById: async (id) => (['getQuestionById', id]),
    }
@@ -45,7 +39,6 @@ describe('index', () => {
    })
 
    it('GET /', async () => {
-
       const response = await request(app)
          .get('/')
          .expect('Content-Type', /json/);
@@ -89,7 +82,6 @@ describe('index', () => {
    });
 
    it('GET /questions/:questionId/answers/:answerId', async () => {
-      console.log("-======")
       const questionId = faker.datatype.uuid();
       const answerId = faker.datatype.uuid();
       const response = await request(app)
