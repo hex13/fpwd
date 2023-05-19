@@ -11,6 +11,7 @@ function createAppAndRepos() {
       return ['getAnswers', id]
     },
     addQuestion: jest.fn(() => {}),
+    addAnswer: jest.fn(() => {}),
     getQuestions: () => ['getQuestions'],
     getQuestionById: async id => ['getQuestionById', id]
   }
@@ -42,12 +43,21 @@ describe('index', () => {
     expect(response.body).toEqual(['getQuestions'])
   })
   it('POST /questions should add question', async () => {
-    const response = await request(app)
+    await request(app)
       .post('/questions')
       .send({ abc: 'foo' })
       .expect('Content-Type', /json/)
 
     expect(questionRepo.addQuestion.mock.calls).toEqual([[{ abc: 'foo' }]])
+  })
+  it('POST /questions/:questionId/answers should add answer', async () => {
+    const questionId = faker.datatype.uuid()
+    await request(app)
+      .post(`/questions/${questionId}/answers`)
+      .send({ abc: 'foo' })
+      .expect('Content-Type', /json/)
+
+    expect(questionRepo.addAnswer.mock.calls).toEqual([[questionId, { abc: 'foo' }]])
   })
 
   it('GET /questions/:questionId', async () => {

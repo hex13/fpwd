@@ -35,7 +35,10 @@ exports.createApp = makeRepositories => {
     )
   })
 
-  app.post('/questions/:questionId/answers', (req, res) => {})
+  app.post('/questions/:questionId/answers', async (req, res) => {
+    await req.repositories.questionRepo.addAnswer(req.params.questionId, req.body)
+    res.json({})
+  })
 
   app.get('/questions/:questionId/answers/:answerId', async (req, res) => {
     const { questionId, answerId } = req.params
