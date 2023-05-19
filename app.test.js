@@ -1,5 +1,4 @@
 const request = require('supertest')
-const { makeQuestionRepository } = require('./repositories/question')
 const { createApp: createExpressApp } = require('./app')
 const { faker } = require('@faker-js/faker')
 

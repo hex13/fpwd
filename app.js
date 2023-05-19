@@ -1,15 +1,12 @@
 const express = require('express')
 const { urlencoded, json } = require('body-parser')
 
-const STORAGE_FILE_PATH = 'questions.json'
-const PORT = 3000
-
 exports.createApp = makeRepositories => {
   const app = express()
 
   app.use(urlencoded({ extended: true }))
   app.use(json())
-  app.use(makeRepositories(STORAGE_FILE_PATH))
+  app.use(makeRepositories())
 
   app.get('/', (_, res) => {
     res.json({ message: 'Welcome to responder!' })
@@ -46,10 +43,6 @@ exports.createApp = makeRepositories => {
       await req.repositories.questionRepo.getAnswer(questionId, answerId)
     )
   })
-
-  // app.listen(PORT, () => {
-  //   console.log(`Responder app listening on port ${PORT}`)
-  // })
 
   return app
 }
