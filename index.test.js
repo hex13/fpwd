@@ -5,11 +5,7 @@ const { faker } = require('@faker-js/faker')
 
 function createAppAndRepos() {
 
-   module.exports = fileName => (req, res, next) => {
-      req.repositories = { questionRepo: makeQuestionRepository(fileName) }
-      next()
-    }
-    const questionRepo = {
+   const questionRepo = {
       getAnswer: (questionId, answerId) => {
          return (['getAnswer', questionId, answerId]);
       },
