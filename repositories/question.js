@@ -1,10 +1,6 @@
 const { readFile, writeFile } = require('fs/promises')
 
 const makeQuestionRepository = fileName => {
-  let questions
-  const load = async () => {
-    questions = getQuestions()
-  }
   const save = async questions => {
     await writeFile(fileName, JSON.stringify(questions, null, 2), {
       encoding: 'utf-8'
