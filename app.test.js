@@ -57,7 +57,9 @@ describe('index', () => {
       .send({ abc: 'foo' })
       .expect('Content-Type', /json/)
 
-    expect(questionRepo.addAnswer.mock.calls).toEqual([[questionId, { abc: 'foo' }]])
+    expect(questionRepo.addAnswer.mock.calls).toEqual([
+      [questionId, { abc: 'foo' }]
+    ])
   })
 
   it('GET /questions/:questionId', async () => {

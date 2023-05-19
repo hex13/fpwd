@@ -36,7 +36,10 @@ exports.createApp = makeRepositories => {
   })
 
   app.post('/questions/:questionId/answers', async (req, res) => {
-    await req.repositories.questionRepo.addAnswer(req.params.questionId, req.body)
+    await req.repositories.questionRepo.addAnswer(
+      req.params.questionId,
+      req.body
+    )
     res.json({})
   })
 

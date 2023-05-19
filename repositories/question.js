@@ -5,9 +5,11 @@ const makeQuestionRepository = fileName => {
   const load = async () => {
     questions = getQuestions()
   }
-  const save = async (questions) => {
-    await writeFile(fileName, JSON.stringify(questions, null, 2), { encoding: 'utf-8' })
-  };
+  const save = async questions => {
+    await writeFile(fileName, JSON.stringify(questions, null, 2), {
+      encoding: 'utf-8'
+    })
+  }
 
   const getQuestions = async () => {
     const fileContent = await readFile(fileName, { encoding: 'utf-8' })
@@ -17,21 +19,21 @@ const makeQuestionRepository = fileName => {
 
   const getQuestionById = async (questionId, questions = null) => {
     if (!questions) questions = await getQuestions()
-    return questions.find(question => question.id == questionId);
+    return questions.find(question => question.id == questionId)
   }
   const addQuestion = async question => {
     // TODO prevent adding questions with duplicated id
-    const questions = await getQuestions();
-    questions.push(question);
-    await save(questions);
+    const questions = await getQuestions()
+    questions.push(question)
+    await save(questions)
   }
 
   const getAnswers = async questionId => {
-    const question = await getQuestionById(questionId);
-    return question?.answers;
+    const question = await getQuestionById(questionId)
+    return question?.answers
   }
   const getAnswer = async (questionId, answerId) => {
-    const answers = await getAnswers(questionId);
+    const answers = await getAnswers(questionId)
     return answers?.find(answer => answer.id == answerId)
   }
 
