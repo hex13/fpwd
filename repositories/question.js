@@ -6,7 +6,7 @@ const makeQuestionRepository = fileName => {
     questions = getQuestions()
   }
   const save = async (questions) => {
-    await writeFile(fileName, JSON.stringify(questions), { encoding: 'utf-8' })
+    await writeFile(fileName, JSON.stringify(questions, null, 2), { encoding: 'utf-8' })
   };
 
   const getQuestions = async () => {
