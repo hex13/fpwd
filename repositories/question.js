@@ -20,6 +20,7 @@ const makeQuestionRepository = fileName => {
     return questions.find(question => question.id == questionId);
   }
   const addQuestion = async question => {
+    // TODO prevent adding questions with duplicated id
     const questions = await getQuestions();
     questions.push(question);
     await save(questions);
@@ -35,6 +36,7 @@ const makeQuestionRepository = fileName => {
   }
 
   const addAnswer = async (questionId, answer) => {
+    // TODO prevent adding answers with duplicated id
     const questions = await getQuestions()
     const question = await getQuestionById(questionId, questions)
     question.answers.push(answer)
